@@ -9,9 +9,18 @@
 #include "elevio.h"
 #include "con_load.h"
 
+/**
+ * @file elevio.c
+ * @brief Implementation of the elevator I/O functions which communicate
+ * with the simulator over a TCP socket.
+ */
+
 static int sockfd;
 static pthread_mutex_t sockmtx;
 
+/**
+ * @brief Initialise the elevio module and open connection to simulator.
+ */
 void elevio_init(void){
     char ip[16] = "localhost";
     char port[8] = "15657";
@@ -44,6 +53,10 @@ void elevio_init(void){
 
 
 
+/**
+ * @brief Send motor direction command to the simulator.
+ * @param dirn Direction (DIRN_UP, DIRN_DOWN or DIRN_STOP).
+ */
 void elevio_motorDirection(MotorDirection dirn){
     pthread_mutex_lock(&sockmtx);
     send(sockfd, (char[4]){1, dirn}, 4, 0);
@@ -51,6 +64,12 @@ void elevio_motorDirection(MotorDirection dirn){
 }
 
 
+/**
+ * @brief Set or clear a button lamp in the simulator.
+ * @param floor Floor index (0 .. N_FLOORS-1).
+ * @param button Button type.
+ * @param value Non-zero to turn lamp on, zero to turn it off.
+ */
 void elevio_buttonLamp(int floor, ButtonType button, int value){
     assert(floor >= 0);
     assert(floor < N_FLOORS);
@@ -63,6 +82,10 @@ void elevio_buttonLamp(int floor, ButtonType button, int value){
 }
 
 
+/**
+ * @brief Update the floor indicator shown in the cab.
+ * @param floor Floor index (0 .. N_FLOORS-1).
+ */
 void elevio_floorIndicator(int floor){
     assert(floor >= 0);
     assert(floor < N_FLOORS);
@@ -73,6 +96,10 @@ void elevio_floorIndicator(int floor){
 }
 
 
+/**
+ * @brief Control the door-open lamp.
+ * @param value Non-zero to turn the lamp on, zero to turn it off.
+ */
 void elevio_doorOpenLamp(int value){
     pthread_mutex_lock(&sockmtx);
     send(sockfd, (char[4]){4, value}, 4, 0);
@@ -80,6 +107,10 @@ void elevio_doorOpenLamp(int value){
 }
 
 
+/**
+ * @brief Control the stop lamp.
+ * @param value Non-zero to turn the lamp on, zero to turn it off.
+ */
 void elevio_stopLamp(int value){
     pthread_mutex_lock(&sockmtx);
     send(sockfd, (char[4]){5, value}, 4, 0);
@@ -89,6 +120,12 @@ void elevio_stopLamp(int value){
 
 
 
+/**
+ * @brief Query whether a call button is pressed.
+ * @param floor Floor index.
+ * @param button Button type.
+ * @return Non-zero if pressed, otherwise zero.
+ */
 int elevio_callButton(int floor, ButtonType button){
     pthread_mutex_lock(&sockmtx);
     send(sockfd, (char[4]){6, button, floor}, 4, 0);
@@ -99,6 +136,10 @@ int elevio_callButton(int floor, ButtonType button){
 }
 
 
+/**
+ * @brief Read current floor sensor value from simulator.
+ * @return Floor index if at floor, otherwise -1.
+ */
 int elevio_floorSensor(void){
     pthread_mutex_lock(&sockmtx);
     send(sockfd, (char[4]){7}, 4, 0);
@@ -109,6 +150,10 @@ int elevio_floorSensor(void){
 }
 
 
+/**
+ * @brief Query the stop button state.
+ * @return Non-zero if pressed, otherwise zero.
+ */
 int elevio_stopButton(void){
     pthread_mutex_lock(&sockmtx);
     send(sockfd, (char[4]){8}, 4, 0);
@@ -119,6 +164,10 @@ int elevio_stopButton(void){
 }
 
 
+/**
+ * @brief Query the obstruction sensor state.
+ * @return Non-zero if obstruction is active, otherwise zero.
+ */
 int elevio_obstruction(void){
     pthread_mutex_lock(&sockmtx);
     send(sockfd, (char[4]){9}, 4, 0);

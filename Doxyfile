@@ -1,0 +1,55 @@
+# Doxyfile generated for heislab
+# Minimal configuration tuned for the skeleton_project C sources
+
+PROJECT_NAME           = "heislab"
+PROJECT_BRIEF          = "Elevator lab project documentation"
+OUTPUT_DIRECTORY       = docs/doxygen
+CREATE_SUBDIRS         = NO
+
+# Input sources - adjust path if you prefer different layout
+INPUT                  = skeleton_project/source
+RECURSIVE              = YES
+FILE_PATTERNS          = *.c *.h
+
+# Strip the common prefix from file paths in generated docs
+STRIP_FROM_PATH        = skeleton_project/source
+
+# Extract settings
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_LOCAL_METHODS  = YES
+
+# Documentation output formats
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+GENERATE_XML           = NO
+GENERATE_MAN           = NO
+GENERATE_RTF           = NO
+GENERATE_DOCSET        = NO
+
+# Presentation / navigation
+GENERATE_TREEVIEW      = YES
+QUIET                  = NO
+WARN_IF_UNDOCUMENTED   = YES
+WARN_NO_PARAMDOC       = YES
+ALPHABETICAL_INDEX     = YES
+
+# Source browsing
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+REFERENCES_RELATION    = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+INPUT_ENCODING         = UTF-8
+
+# Dot (graphviz) - disabled by default. Enable if you have dot installed.
+HAVE_DOT               = NO
+
+# Other useful defaults
+FULL_PATH_NAMES        = NO
+STRIP_FROM_INC_PATH    = 
+
+
+# End of Doxyfile
