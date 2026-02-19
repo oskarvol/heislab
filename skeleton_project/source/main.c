@@ -11,7 +11,7 @@ int main(){
     elevio_init();
     sm_init();
     while (1){
-        run();
+        running();
     };  
     
     // printf("=== Example Program ===\n");

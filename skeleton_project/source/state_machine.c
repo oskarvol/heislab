@@ -29,7 +29,7 @@ void sm_init() {
     if (current_state.current_floor != -1){
         current_state.current_floor = elevio_floorSensor();
         printf("ferdig\n");
-        run();
+        return;
     };
     
     sm_init();
@@ -58,10 +58,10 @@ void sort_cab_buttons_pressed(){
     int last_motor_dir = current_state.motor_dir;
 };
 
-void run(){
-    printf("run");
+void running(){
+    printf("run\n");
     while (elevio_stopButton() == 0){
-        for (int i; i < 3; i++){
+        for (int i = 0; i < 3; i++){
             if (elevio_callButton(i, 2) != 0){
                 update_cab_buttons_pressed(i);
                 printf("%d", i);

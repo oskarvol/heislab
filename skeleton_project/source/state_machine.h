@@ -15,6 +15,6 @@ void update_cab_buttons_pressed(int floor_pressed);
 
 void floor_reached(void);
 
-void sort_cab_buttons_pressed();
+void sort_cab_buttons_pressed(void);
 
-void run();
+void running(void);
