@@ -11,13 +11,8 @@ int main(){
     elevio_init();
     sm_init();
     while (1){
-        if (elevio_stopButton() == 1){
-            break;
-        }
-        else{
-            continue;
-        }
-    };
+        run();
+    };  
     
     // printf("=== Example Program ===\n");
     // printf("Press the stop button on the elevator panel to exit\n");

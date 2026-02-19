@@ -4,11 +4,17 @@
 
 struct state {
     int current_floor;
-    int motor_dir;    
-
+    int motor_dir;
+    int last_motor_dir;   
+    int cab_buttons_pressed [4];
 };
 
-bool sm_init(void);
-void sm_update(void);
+void sm_init(void);
 
+void update_cab_buttons_pressed(int floor_pressed);
 
+void floor_reached(void);
+
+void sort_cab_buttons_pressed();
+
+void run();
