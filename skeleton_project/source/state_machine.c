@@ -40,7 +40,7 @@ void update_cab_buttons_pressed(int floor_pressed){
     int i = 0;
     while (current_state.cab_buttons_pressed[i] != 0){
         i++;
-        if (i >= 4){
+        if (i >= 3){
             break;
         };
     };
@@ -48,6 +48,8 @@ void update_cab_buttons_pressed(int floor_pressed){
 }
 
 void floor_reached(){
+    elevio_motorDirection(DIRN_STOP);
+    current_state.motor_dir = DIRN_STOP;
     for (int i = 0; i <= 2; i++){
         current_state.cab_buttons_pressed[i] = current_state.cab_buttons_pressed[i+1];
     };
@@ -61,10 +63,10 @@ void sort_cab_buttons_pressed(){
 void running(){
     printf("run\n");
     while (elevio_stopButton() == 0){
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < N_FLOORS; i++){
             if (elevio_callButton(i, 2) != 0){
-                update_cab_buttons_pressed(i);
-                printf("%d", i);
+                update_cab_buttons_pressed(i+1);
+                printf("%d", i+1);
             };
         };
         if (current_state.cab_buttons_pressed[0] == 0 && current_state.current_floor != -1){
