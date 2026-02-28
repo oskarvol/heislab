@@ -16,14 +16,8 @@ struct state {
 
 void sm_init(void);
 
-void update_cab_buttons_pressed(int floor_pressed);
-
-void update_button_hall(ButtonType button, int floor);
-
 void floor_reached(void);
 
 void stop_rutine(void);
-
-void sort_cab_buttons_pressed(void);
 
 void running(void);
