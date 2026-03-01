@@ -5,7 +5,7 @@
 // #include <cstdio>
 #include <threads.h>
 #include "buttons.h"
-# include "motor.h"
+#include "motor.h"
 
 bool stop_signal = false;
 struct state current_state = {-1,
@@ -169,10 +169,10 @@ void running(){
         } 
     
         
-        for (int i = 0; i < N_FLOORS; i++){
-            if (elevio_callButton(i, 2) != 0){
-                update_cab_buttons_pressed(&current_state, i);
-                printf("Pressed: %d, \t", i);
+        for (int floor = 0; floor < N_FLOORS; floor++){
+            if (elevio_callButton(floor, 2) != 0){
+                update_cab_buttons_pressed(&current_state, floor);
+                printf("Pressed: %d, \t", floor);
             };
         };
         
@@ -204,24 +204,24 @@ void running(){
         //     elevio_motorDirection(DIRN_STOP);
         //     current_state.motor_dir = DIRN_STOP;
 
-        update_goal(&current_state);
+        // update_goal(&current_state);
     } else if (current_state.cab_buttons_pressed[0] != -1){
         int current_floor = current_state.current_floor;
         int current_dir = current_state.motor_dir;
         int goal = current_state.cab_buttons_pressed[0];
             int j = 0;
-                while(elevio_obstruction() != 0){
-                    j = 1;
-                    continue;
-                }
-                if (j == 1){
-                    for (int i = 0; i < 1000; i++){
-                        if(elevio_stopButton()){
-                            stop_rutine();
-                        }
-                        usleep(3000);
+            while(elevio_obstruction() != 0){
+                j = 1;
+                continue;
+            }
+            if (j == 1){
+                for (int i = 0; i < 1000; i++){
+                    if(elevio_stopButton()){
+                        stop_rutine();
                     }
+                    usleep(3000);
                 }
+            }
             if (current_floor < goal){
                 set_motor_dir(&current_state, DIRN_UP);
                 int j = 0;

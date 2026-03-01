@@ -1,4 +1,5 @@
 #include "buttons.h"
+#include "driver/elevio.h"
 
 void update_cab_buttons_pressed(struct state *s, int floor_pressed){
     int i = 0;
@@ -37,5 +38,5 @@ void update_hall_button_pressed(struct state *s, ButtonType button, int floor){
 }
 
 void update_goal(struct state *s){
-    if (s->last_motor_dir)
+
 }
