@@ -90,9 +90,9 @@ void poll_buttons(){
 }
 
 void floor_reached(){
+    current_state.current_floor = elevio_floorSensor();
     current_state.last_motor_dir = current_state.motor_dir;
-    elevio_motorDirection(DIRN_STOP);
-    current_state.motor_dir = DIRN_STOP;
+    set_motor_dir(&current_state, DIRN_STOP);
 
     for (int i = 0; i <= 2; i++){
         current_state.cab_buttons_pressed[i] = current_state.cab_buttons_pressed[i+1];
@@ -147,18 +147,20 @@ void stop_rutine(){
         current_state.cab_buttons_pressed[i] = -1;
         elevio_buttonLamp(i, 2, 0);
     }
+
     for (int floor = 0; floor < N_FLOORS-1; floor++){
         elevio_buttonLamp(floor, 0, 0);
-        elevio_buttonLamp(floor+1, 1, 0);
-        
+        elevio_buttonLamp(floor+1, 1, 0);    
     }
 
     if (elevio_floorSensor() != -1){
         elevio_doorOpenLamp(1);
     }
+
     while (elevio_stopButton()){
         continue;
     }
+
     elevio_stopLamp(0);
     for (int i = 0; i < 1000; i++){
         if(elevio_stopButton()){
@@ -166,6 +168,7 @@ void stop_rutine(){
         }
         usleep(3000);
     }
+    
     int j = 0;
      while(elevio_obstruction() != 0){
         j = 1;
@@ -187,6 +190,7 @@ void stop_rutine(){
 void running(){
     printf("run\n");
     while (1){
+        update_goal(&current_state);
         if(elevio_stopButton()){
             stop_rutine();
         } 
@@ -210,12 +214,11 @@ void running(){
         //     elevio_motorDirection(DIRN_STOP);
         //     current_state.motor_dir = DIRN_STOP;
 
-        // update_goal(&current_state);
     } else if (current_state.cab_buttons_pressed[0] != -1){
         int current_floor = current_state.current_floor;
         int current_dir = current_state.motor_dir;
         int goal = current_state.cab_buttons_pressed[0];
-            int j = 0;
+        int j = 0;
             while(elevio_obstruction() != 0){
                 j = 1;
                 continue;
