@@ -17,6 +17,8 @@ struct state {
 
 void sm_init(void);
 
+void poll_buttons(void);
+
 void floor_reached(void);
 
 void stop_rutine(void);

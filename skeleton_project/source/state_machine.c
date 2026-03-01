@@ -68,6 +68,27 @@ void sm_init() {
 
 
 
+void poll_buttons(){
+    for (int floor = 0; floor < N_FLOORS; floor++){
+        if (elevio_callButton(floor, 2) != 0){
+            update_cab_buttons_pressed(&current_state, floor);
+            printf("Pressed: %d, \t", floor);
+        };
+    };
+
+    for (int floor = 0; floor < N_FLOORS - 1; floor++) {
+        if (elevio_callButton(floor, 0)) {
+            update_hall_button_pressed(&current_state, 0, floor);
+        }
+    }
+
+    for (int floor = 1; floor < N_FLOORS; floor++) {
+        if (elevio_callButton(floor, 1)) {
+            update_hall_button_pressed(&current_state, 1, floor);
+        }
+    }
+}
+
 void floor_reached(){
     current_state.last_motor_dir = current_state.motor_dir;
     elevio_motorDirection(DIRN_STOP);
@@ -97,6 +118,7 @@ void floor_reached(){
         if(elevio_stopButton()){
             stop_rutine();
         }
+        poll_buttons();
         usleep(3000);
     }
     int j = 0;
@@ -109,6 +131,7 @@ void floor_reached(){
             if(elevio_stopButton()){
                 stop_rutine();
             }
+            poll_buttons();
             usleep(3000);
         }
     }
@@ -169,24 +192,7 @@ void running(){
         } 
     
         
-        for (int floor = 0; floor < N_FLOORS; floor++){
-            if (elevio_callButton(floor, 2) != 0){
-                update_cab_buttons_pressed(&current_state, floor);
-                printf("Pressed: %d, \t", floor);
-            };
-        };
-        
-        for (int floor = 0; floor < N_FLOORS - 1; floor++) {
-            if (elevio_callButton(floor, 0)) {
-                update_hall_button_pressed(&current_state, 0, floor);
-            }
-        }
-
-        for (int floor = 1; floor < N_FLOORS; floor++) {
-            if (elevio_callButton(floor, 1)) {
-                update_hall_button_pressed(&current_state, 1, floor);
-            }
-        }
+        poll_buttons();
 
         if (elevio_floorSensor() != -1){
             current_state.current_floor = elevio_floorSensor();
