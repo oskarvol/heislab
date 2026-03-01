@@ -198,73 +198,19 @@ void running(){
             current_state.current_floor = elevio_floorSensor();
             elevio_floorIndicator(current_state.current_floor);
         }
-        if (current_state.cab_buttons_pressed[0] == -1 && current_state.current_floor != -1){
-            set_motor_dir(&current_state,  DIRN_STOP);
-
-        // } else if (current_state.cab_buttons_pressed[0] == 0 && current_state.current_floor == -1){
-        //     while (current_state.current_floor == -1){
-        //         elevio_motorDirection(DIRN_DOWN);
-        //         current_state.motor_dir = DIRN_DOWN;
-        //         current_state.current_floor = elevio_floorSensor();
-        //     };
-        //     elevio_motorDirection(DIRN_STOP);
-        //     current_state.motor_dir = DIRN_STOP;
-
-        // update_goal(&current_state);
-    } else if (current_state.cab_buttons_pressed[0] != -1){
+        int goal = update_goal(&current_state);
         int current_floor = current_state.current_floor;
-        int current_dir = current_state.motor_dir;
-        int goal = current_state.cab_buttons_pressed[0];
-            int j = 0;
-            while(elevio_obstruction() != 0){
-                j = 1;
-                continue;
-            }
-            if (j == 1){
-                for (int i = 0; i < 1000; i++){
-                    if(elevio_stopButton()){
-                        stop_rutine();
-                    }
-                    usleep(3000);
-                }
-            }
-            if (current_floor < goal){
-                set_motor_dir(&current_state, DIRN_UP);
-                int j = 0;
-                while(elevio_obstruction() != 0){
-                    j = 1;
-                    continue;
-                }
-                if (j == 1){
-                    for (int i = 0; i < 1000; i++){
-                        if(elevio_stopButton()){
-                            stop_rutine();
-                        }
-                        usleep(3000);
-                    }
-                }
-                elevio_doorOpenLamp(0);
-            }
-            else if (current_floor > goal){
-                set_motor_dir(&current_state, DIRN_DOWN);
-                  int j = 0;
-                while(elevio_obstruction() != 0){
-                    j = 1;
-                    continue;
-                }
-                if (j == 1){
-                    for (int i = 0; i < 1000; i++){
-                        if(elevio_stopButton()){
-                            stop_rutine();
-                        }
-                        usleep(3000);
-                    }
-                }
-                elevio_doorOpenLamp(0);
-            }
-            else if (current_floor == goal){
-                floor_reached();
-            }
+
+        if (goal == -1){
+            set_motor_dir(&current_state, DIRN_STOP);
+        } else if (current_floor < goal){
+            set_motor_dir(&current_state, DIRN_UP);
+            elevio_doorOpenLamp(0);
+        } else if (current_floor > goal){
+            set_motor_dir(&current_state, DIRN_DOWN);
+            elevio_doorOpenLamp(0);
+        } else {
+            floor_reached();
         }
     };
 };
