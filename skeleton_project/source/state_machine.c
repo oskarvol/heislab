@@ -112,8 +112,10 @@ void floor_reached(){
          elevio_buttonLamp(current_state.current_floor, 1, 0);
     }
 
-    current_state.button_hall_down_pressed[current_state.current_floor-1] = 0;
-    current_state.button_hall_up_pressed[current_state.current_floor] = 0;
+    if (current_state.current_floor > 0)
+        current_state.button_hall_down_pressed[current_state.current_floor-1] = 0;
+    if (current_state.current_floor < N_FLOORS - 1)
+        current_state.button_hall_up_pressed[current_state.current_floor] = 0;
 
     elevio_doorOpenLamp(1);
     for (int i = 0; i < 1000; i++){

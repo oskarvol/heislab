@@ -30,10 +30,10 @@ void update_cab_buttons_pressed(struct state *s, int floor_pressed){
 void update_hall_button_pressed(struct state *s, ButtonType button, int floor){
     elevio_buttonLamp(floor, button, 1);
     if (button == 0){
-        s->button_hall_down_pressed[floor-1] = 1;
+        s->button_hall_up_pressed[floor] = 1;
     }
     if (button == 1){
-        s->button_hall_up_pressed[floor] = 1;
+        s->button_hall_down_pressed[floor-1] = 1;
     }
 }
 
