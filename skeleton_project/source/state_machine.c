@@ -94,11 +94,13 @@ void floor_reached(){
     current_state.last_motor_dir = current_state.motor_dir;
     set_motor_dir(&current_state, DIRN_STOP);
 
-    for (int i = 0; i <= 2; i++){
-        current_state.cab_buttons_pressed[i] = current_state.cab_buttons_pressed[i+1];
-    };
-
-    current_state.cab_buttons_pressed[3] = -1;
+    int j = 0;
+    for (int i = 0; i < 4; i++){
+        if (current_state.cab_buttons_pressed[i] != current_state.current_floor){
+            current_state.cab_buttons_pressed[j++] = current_state.cab_buttons_pressed[i];
+        }
+    }
+    while (j < 4) current_state.cab_buttons_pressed[j++] = -1;
     elevio_buttonLamp(current_state.current_floor, 2, 0);
 
     if (current_state.current_floor == 3){

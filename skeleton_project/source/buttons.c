@@ -50,6 +50,13 @@ int update_goal(struct state *s) {
     int floor = s->current_floor;
     int dir   = s->last_motor_dir;
 
+    // Sjekk nåværende etasje først
+    for (int i = 0; i < 4 && s->cab_buttons_pressed[i] != -1; i++) {
+        if (s->cab_buttons_pressed[i] == floor) return floor;
+    }
+    if (floor < N_FLOORS - 1 && s->button_hall_up_pressed[floor])    return floor;
+    if (floor > 0             && s->button_hall_down_pressed[floor-1]) return floor;
+
     // Søk oppover hvis vi kjørte opp (eller sto stille)
     if (dir != DIRN_DOWN) {
         for (int f = floor + 1; f < N_FLOORS; f++) {
