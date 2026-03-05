@@ -146,7 +146,9 @@ void floor_reached(){
 
 void stop_rutine(){
     set_motor_dir(&current_state,  DIRN_STOP);
-    current_state.current_floor = elevio_floorSensor();
+    if (elevio_floorSensor() != -1){
+        current_state.current_floor = elevio_floorSensor();
+    }
     elevio_stopLamp(1);
     for (int i = 0; i < N_FLOORS; i++){
         current_state.cab_buttons_pressed[i] = -1;
@@ -226,6 +228,10 @@ void running(){
         } else {
             if (elevio_floorSensor() == current_floor){
                 floor_reached();
+            } else if (current_state.motor_dir == DIRN_STOP){
+                MotorDirection dir = (current_state.last_motor_dir != DIRN_STOP)
+                                     ? current_state.last_motor_dir : DIRN_DOWN;
+                set_motor_dir(&current_state, dir);
             }
         }
     };
