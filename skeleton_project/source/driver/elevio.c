@@ -22,7 +22,7 @@ static pthread_mutex_t sockmtx;
  * @brief Initialise the elevio module and open connection to simulator.
  */
 void elevio_init(void){
-    printf("elevio_init started \n");
+   
     char ip[16] = "localhost";
     char port[8] = "15657";
     con_load("source/driver/elevio.con",
@@ -31,8 +31,8 @@ void elevio_init(void){
     )
     
     pthread_mutex_init(&sockmtx, NULL);
-    
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
+ 
     assert(sockfd != -1 && "Unable to set up socket");
     
     struct addrinfo hints = {
@@ -41,15 +41,17 @@ void elevio_init(void){
         .ai_protocol    = IPPROTO_TCP,
     };
     struct addrinfo* res;
+
+
     getaddrinfo(ip, port, &hints, &res);
-    
+;
     int fail = connect(sockfd, res->ai_addr, res->ai_addrlen);
+   
     assert(fail == 0 && "Unable to connect to elevator server");
     
     freeaddrinfo(res);
-    
     send(sockfd, (char[4]){0}, 4, 0);
-    printf("elevio_init finished \n");
+
 }
 
 

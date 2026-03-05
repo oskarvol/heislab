@@ -2,25 +2,6 @@
 #include "driver/elevio.h"
 #include <time.h>
 
-// static void debug_log_hall_buttons(const struct state *s, const char *event) {
-//     FILE *f = fopen("debug_hall.log", "a");
-//     if (!f) return;
-
-//     time_t now = time(NULL);
-//     struct tm *t = localtime(&now);
-//     fprintf(f, "[%02d:%02d:%02d] %s\n", t->tm_hour, t->tm_min, t->tm_sec, event);
-//     fprintf(f, "  hall_up_pressed   [F0=%d F1=%d F2=%d]\n",
-//             s->button_hall_up_pressed[0],
-//             s->button_hall_up_pressed[1],
-//             s->button_hall_up_pressed[2]);
-//     fprintf(f, "  hall_down_pressed [F1=%d F2=%d F3=%d]\n",
-//             s->button_hall_down_pressed[0],
-//             s->button_hall_down_pressed[1],
-//             s->button_hall_down_pressed[2]);
-//     fflush(f);
-//     fclose(f);
-// }
-
 void update_cab_buttons_pressed(struct state *s, int floor_pressed){
     int i = 0;
     elevio_buttonLamp(floor_pressed, 2, 1);

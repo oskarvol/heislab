@@ -15,7 +15,7 @@ struct state current_state = {-1,
                              {0, 0, 0},
                              {0, 0, 0}};
 void sm_init() {
-    printf("sm_init started \n");
+  
     int j = 0;
     elevio_motorDirection(DIRN_STOP);
     while(elevio_obstruction() != 0){
@@ -40,9 +40,8 @@ void sm_init() {
         current_state.current_floor = elevio_floorSensor();
         current_state.motor_dir = DIRN_DOWN;    
         floor = elevio_floorSensor();
-        printf("utenfor floor\n");
     };
-    printf("floor \n");
+    printf("floor %d \n ", floor);
     elevio_motorDirection(DIRN_STOP);
     current_state.motor_dir = DIRN_STOP;
     for (int i = 0; i < 4; i++){
@@ -59,7 +58,6 @@ void sm_init() {
 
     if (current_state.current_floor != -1){
         current_state.current_floor = elevio_floorSensor();
-        printf("ferdig\n%d", elevio_floorSensor());
         return;
     };
     

@@ -4,8 +4,10 @@
 
 
 int main(){
+    printf("init starting \n");
     elevio_init();
     sm_init();
+    printf("init finished \n");
     while (1){
         running();
     };  
