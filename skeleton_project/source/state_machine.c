@@ -3,6 +3,7 @@
 #include "driver/elevio.h"
 // #include <algorithm>
 // #include <cstdio>
+// #include <exception>
 #include <threads.h>
 #include "buttons.h"
 #include "motor.h"
@@ -90,7 +91,6 @@ void poll_buttons(){
 }
 
 void floor_reached(){
-    current_state.current_floor = elevio_floorSensor();
     current_state.last_motor_dir = current_state.motor_dir;
     set_motor_dir(&current_state, DIRN_STOP);
 
@@ -203,11 +203,10 @@ void running(){
         if(elevio_stopButton()){
             stop_rutine();
         }
- while (elevio_stopButton()){
-        continue;
-    }
+        while (elevio_stopButton()){
+                continue;
+        }
         poll_buttons();
-
         if (elevio_floorSensor() != -1){
             current_state.current_floor = elevio_floorSensor();
             elevio_floorIndicator(current_state.current_floor);
@@ -225,7 +224,9 @@ void running(){
             set_motor_dir(&current_state, DIRN_DOWN);
             elevio_doorOpenLamp(0);
         } else {
-            floor_reached();
+            if (elevio_floorSensor() == current_floor){
+                floor_reached();
+            }
         }
     };
 };
