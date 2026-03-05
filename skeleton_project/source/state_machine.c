@@ -15,7 +15,7 @@ struct state current_state = {-1,
                              {0, 0, 0},
                              {0, 0, 0}};
 void sm_init() {
-    int floor;
+    printf("sm_init started \n");
     int j = 0;
     elevio_motorDirection(DIRN_STOP);
     while(elevio_obstruction() != 0){
@@ -33,6 +33,7 @@ void sm_init() {
     }
     elevio_doorOpenLamp(0); 
     elevio_stopLamp(0);
+    int floor = -1;
 
     while (current_state.current_floor == -1 && elevio_stopButton() == 0){ 
         elevio_motorDirection(DIRN_DOWN);

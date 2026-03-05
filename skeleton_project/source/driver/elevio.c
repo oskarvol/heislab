@@ -22,6 +22,7 @@ static pthread_mutex_t sockmtx;
  * @brief Initialise the elevio module and open connection to simulator.
  */
 void elevio_init(void){
+    printf("elevio_init started \n");
     char ip[16] = "localhost";
     char port[8] = "15657";
     con_load("source/driver/elevio.con",
@@ -48,6 +49,7 @@ void elevio_init(void){
     freeaddrinfo(res);
     
     send(sockfd, (char[4]){0}, 4, 0);
+    printf("elevio_init finished \n");
 }
 
 
