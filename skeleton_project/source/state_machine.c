@@ -126,7 +126,7 @@ void floor_reached(){
         poll_buttons();
         usleep(3000);
     }
-    int j = 0;
+    j = 0;
     while(elevio_obstruction() != 0){
         poll_buttons();
         j = 1;
@@ -152,6 +152,10 @@ void stop_rutine(){
     for (int i = 0; i < N_FLOORS; i++){
         current_state.cab_buttons_pressed[i] = -1;
         elevio_buttonLamp(i, 2, 0);
+    }
+    for (int i = 0; i < N_FLOORS - 1; i++){
+        current_state.button_hall_up_pressed[i] = 0;
+        current_state.button_hall_down_pressed[i] = 0;
     }
 
     for (int floor = 0; floor < N_FLOORS-1; floor++){
