@@ -55,10 +55,10 @@ int update_goal(struct state *s){
             return floor;
         }
     }
-    if (floor < N_FLOORS - 1 && s->button_hall_up_pressed[floor]){
+    if (s->motor_dir != DIRN_DOWN && floor < N_FLOORS - 1 && s->button_hall_up_pressed[floor]){
         return floor;
     }
-    if (floor > 0 && s->button_hall_down_pressed[floor - 1]){
+    if (s->motor_dir != DIRN_UP && floor > 0 && s->button_hall_down_pressed[floor - 1]){
         return floor;
     }
 
