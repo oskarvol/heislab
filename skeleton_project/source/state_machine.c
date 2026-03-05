@@ -19,6 +19,7 @@ void sm_init() {
     int j = 0;
     elevio_motorDirection(DIRN_STOP);
     while(elevio_obstruction() != 0){
+        poll_buttons();
         j = 1;
         continue;
     }
@@ -127,6 +128,7 @@ void floor_reached(){
     }
     int j = 0;
     while(elevio_obstruction() != 0){
+        poll_buttons();
         j = 1;
         continue;
     }
@@ -175,6 +177,7 @@ void stop_rutine(){
     
     int j = 0;
      while(elevio_obstruction() != 0){
+        poll_buttons();
         j = 1;
         continue;
     }
@@ -197,7 +200,9 @@ void running(){
         if(elevio_stopButton()){
             stop_rutine();
         }
-
+ while (elevio_stopButton()){
+        continue;
+    }
         poll_buttons();
 
         if (elevio_floorSensor() != -1){
