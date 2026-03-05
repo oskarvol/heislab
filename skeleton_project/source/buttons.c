@@ -44,7 +44,7 @@ void update_hall_button_pressed(struct state *s, ButtonType button, int floor){
 
 int update_goal(struct state *s){
     int floor = s->current_floor;
-    int dir = s->last_motor_dir;
+    int dir = (s->motor_dir != DIRN_STOP) ? s->motor_dir : s->last_motor_dir;
 
     // Sjekk nåværende etasje
     for (int i = 0; i < 4; i++){
