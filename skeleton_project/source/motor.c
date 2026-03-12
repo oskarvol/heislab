@@ -1,4 +1,3 @@
-#include <threads.h>
 #include "motor.h"
 #include "driver/elevio.h"
 
